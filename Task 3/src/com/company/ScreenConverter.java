@@ -1,5 +1,8 @@
 package com.company;
 
+import com.company.Point.RealPoint;
+import com.company.Point.ScreenPoint;
+
 public class ScreenConverter {
     private double cornerX, cornerY;
     private double realWidth, realHeight;
