@@ -13,176 +13,54 @@ public class MergeRectangle {
     }
 
     private List<RealPoint> calcPoints(List<Rectangle> rectangles) {
-        boolean checker = true;
         List<RealPoint> points = new ArrayList<>();
-        LinkedList<Double> yCords = new LinkedList<>(getAllYCords(rectangles));
-        //List<Double> xCords = new ArrayList<>(getAllXCords(rectangles));
-        yCords.sort(Comparator.naturalOrder());
-        //xCords.sort(Comparator.reverseOrder());
+        LinkedList<Double> yCoords = new LinkedList<>(getAllYCords(rectangles));
+        yCoords.sort(Comparator.naturalOrder());
 
-
-        LinkedList<Double> xCords = new LinkedList<>(getAllXCords(rectanglesAtY(yCords.get(0), rectangles)));
+        LinkedList<Double> xCords = new LinkedList<>(getAllXCords(rectanglesAtY(yCoords.get(0), rectangles)));
         xCords.sort(Comparator.reverseOrder());
-        Rectangle r = findRectangleByCord(rectangles, new RealPoint(xCords.get(0), yCords.get(0)));
-        //copyRectangle.remove(r);
-        RealPoint first = new RealPoint(xCords.get(0), yCords.get(0));
-        System.out.println("first " + first.getX() + " " + first.getY());
-        RealPoint firstPoint = new RealPoint(xCords.get(0), yCords.get(0));
+        Rectangle r = findRectangleByCord(rectangles, new RealPoint(xCords.get(0), yCoords.get(0)));
+        RealPoint first = new RealPoint(xCords.get(0), yCoords.get(0));
+        RealPoint firstPoint = new RealPoint(xCords.get(0), yCoords.get(0));
         RealPoint lastPoint;
         boolean stop = false;
         for (int i = 0; !stop; i++) {
 
-            System.out.print("\u001B[31m" + i + ")" + "\u001B[0m");
             if (i % 2 == 0) { //горизонталь
                 points.add(firstPoint);
                 double y = firstPoint.getY();
 
                 xCords = new LinkedList<>(getAllXCords(rectanglesAtY(y, rectangles)));
                 xCords.sort(Comparator.naturalOrder());
-                System.out.println("x: " + xCords);
 
                 double x = firstPoint.getX();
 
-                //if (x == xCords.getLast() || )
                 int index = xCords.indexOf(x);
 
                 x = xCords.get(index - chooseDirectionHorizontal(rectangles, points, firstPoint));
 
-//                if (x == xCords.getFirst()) {//->
-//                    System.out.println("->");
-//                    x = xCords.get(1);
-//                } else if (x == xCords.getLast()) {//<-
-//                    System.out.println("<-");
-//                    x = xCords.get(xCords.size() - 2);
-//                } else {
-//
-//                    int index = xCords.indexOf(x);
-//                    System.out.println("INDEX " + index);
-//                    System.out.println(" TTTTTTT " + xCords.get(index + 1));
-//                    //System.out.println(ifPointInside(rectangles, new RealPoint(xCords.get(index + 1), y)));
-//                    if (xCords.get(index + 1).equals(xCords.getLast())) { //->
-//                        System.out.println("->");
-//                        x = xCords.get(index + 1);
-//                    } else if (xCords.get(index - 1).equals(xCords.getFirst())) {
-//                        System.out.println("<-");
-//                        x = xCords.get(index - 1);
-//                    } else if (points.contains(new RealPoint(xCords.get(index - 1), y))) {
-//                        System.out.println("->");
-//                        x = xCords.get(index + 1);
-//                    } else if (!points.contains(new RealPoint(xCords.get(index - 1), y))) {
-//                        System.out.println("<-");
-//                        x = xCords.get(index + 1);
-//                    } else if (!ifPointInside(rectangles, new RealPoint(x, xCords.get(index + 1)))) {
-//                        System.out.println("->");
-//                        x = xCords.get(index + 1);
-//
-//                    } else {
-//                        System.out.println("<-");
-//                        x = xCords.get(index - 1);
-//                    }
-////                    if (!ifPointInside(rectangles, new RealPoint(x, xCords.get(index + 1)))) {
-////                        System.out.println("->");
-////                        x = xCords.get(index + 1);
-////
-////                    } else {
-////                        System.out.println("<-");
-////                        x= xCords.get(index - 1);
-////                    }
-//
-//                }
 
-//                if (xCords.getFirst() != firstPoint.getX()) { //<-
-//                    System.out.println("<-");
-//                    int index = xCords.indexOf(firstPoint.getX());
-//                    System.out.println("index = " + index);
-//                    if (index == -1) {
-//                        return points;
-//                    } else {
-//                        x = xCords.get(index - 1);
-//                    }
-//
-//                } else {//->
-//                    System.out.println("->");
-//                    x = xCords.get(1);
-//                }
                 lastPoint = new RealPoint(x, y);
-                //points.add(lastPoint);
-
-                //points.add(lastPoint);
-                System.out.println("\u001B[31m " + "added points: 1)" + "\u001B[0m" + "(" + firstPoint.getX() + ", " + firstPoint.getY() + "); 2) (" + +lastPoint.getX() + ", " + lastPoint.getY() + ");");
-                System.out.println();
 
             } else { //вертикаль
                 points.add(firstPoint);
                 double x = firstPoint.getX();
-                yCords = new LinkedList<>(getAllYCords(rectanglesAtX(x, rectangles)));
-                yCords.sort(Comparator.naturalOrder());
-                System.out.println("y " + yCords);
+                yCoords = new LinkedList<>(getAllYCords(rectanglesAtX(x, rectangles)));
+                yCoords.sort(Comparator.naturalOrder());
                 double y;
 
                 y = firstPoint.getY();
-                //y = yCords.get(yCords.indexOf(firstPoint.getY()));
 
-                int index = yCords.indexOf(y);
+                int index = yCoords.indexOf(y);
 
-                y = yCords.get(index + chooseDirectionVertical(rectangles, points, firstPoint));
-//                if (y == yCords.getFirst()) {//up
-//                    System.out.println("UP");
-//                    y = yCords.get(1);
-//                } else if (y == yCords.getLast()) {//down
-//                    System.out.println("DOWN");
-//
-//                    y = yCords.get(yCords.size() - 2);
-//                } else {
-//                    int index = yCords.indexOf(y);
-//                    System.out.println("INDEX " + index);
-//                    System.out.println(" TTTTTTT " + yCords.get(index + 1));
-//                    System.out.println(ifPointInside(rectangles, new RealPoint(x, yCords.get(index + 1))));
-//
-//                    if (yCords.get(index + 1).equals(yCords.getLast())) {
-//                        System.out.println("UP");
-//                        y = yCords.get(index + 1);
-//                    } else if (yCords.get(index - 1).equals(yCords.getFirst())) {
-//                        System.out.println("DOWN");
-//                        y = yCords.get(index - 1);
-//                    } else if (points.contains(new RealPoint(yCords.get(index - 1), y))) {
-//                        System.out.println("UP");
-//                        y = yCords.get(index + 1);
-//                    } else if (!points.contains(new RealPoint(yCords.get(index - 1), y))) {
-//                        System.out.println("DOWN");
-//                        y = yCords.get(index - 1);
-//                    } else if (!ifPointInside(rectangles, new RealPoint(x, yCords.get(index + 1)))) {
-//                        System.out.println("UP");
-//                        y = yCords.get(index + 1);
-//
-//                    } else {
-//                        System.out.println("DOWN");
-//                        y = yCords.get(index - 1);
-//
-//                    }
-//
-//                }
+                y = yCoords.get(index + chooseDirectionVertical(rectangles, points, firstPoint));
 
                 lastPoint = new RealPoint(x, y);
-                //points.add(lastPoint);
-
-                System.out.println("\u001B[32m" + "added points: 1)" + "\u001B[0m" + "(" + firstPoint.getX() + ", " + firstPoint.getY() + "); 2) (" + +lastPoint.getX() + ", " + lastPoint.getY() + ");");
-                System.out.println();
-
             }
-
             stop = (stop(first, points));
 
             firstPoint = lastPoint;
-
         }
-
-
-        //List<Double> xCords = new ArrayList<>(getAllXCords(rectangles));
-
-        //points.add(new RealPoint(yCords.get(0), maxXRightCoord(yCords.get(0), rectangles)));
-
-
         return points;
     }
 
@@ -191,7 +69,6 @@ public class MergeRectangle {
      * @param rectangles
      * @param points
      * @param firstPoint
-     * @return 1: <--; -1: -->
      */
     private int chooseDirectionHorizontal(List<Rectangle> rectangles, List<RealPoint> points, RealPoint firstPoint){
 
@@ -201,36 +78,28 @@ public class MergeRectangle {
         xCords.sort(Comparator.naturalOrder());
         double firstX = xCords.getFirst();
         double lastX = xCords.getLast();
-        System.out.println("x: " + xCords);
         double x = firstPoint.getX();
 
         if (lastX == x){
-            System.out.println("<-");
             return 1;
         }
         if (firstX == x){
-            System.out.println("->");
             return -1;
         }
 
         int index = xCords.indexOf(x);
         if (xCords.get(index - 1) == firstX){
-            System.out.println("<-");
 
             return 1;
         }
 
         if (xCords.get(index + 1) == lastX){
-            System.out.println("->");
             return -1;
         }
 
         if (ifPointInside(rectangles, new RealPoint(x, xCords.get(index - 1)))){
-            System.out.println("->");
             return -1;
         }
-        System.out.println("//// <- ///////");
-
         return 1;
 
 
@@ -247,37 +116,24 @@ public class MergeRectangle {
         double y = firstPoint.getY();
 
         if (y == yCords.getFirst()) {//up
-            System.out.println("UP");
             return 1;
         }
         if (y == yCords.getLast()) {//down
-            System.out.println("DOWN");
             return -1;
         }
         int index = yCords.indexOf(y);
         if (yCords.get(index+1) == lastY){
-            System.out.println("UP");
             return 1;
         }
         if (yCords.get(index - 1) == firstY){
-            System.out.println("DOWN");
 
             return -1;
         }
 
         if (ifPointInside(rectangles, new RealPoint(x, yCords.get(index+1)))){
-            System.out.println("UP");
 
             return -1;
         }
-
-//        if (yCords.contains(yCords.get(index+1))){
-//            return -1;
-//        }
-
-
-        System.out.println("--UP--");
-
         return 1;
 
     }
@@ -332,29 +188,6 @@ public class MergeRectangle {
         return null;
     }
 
-    private boolean ifCordsBelongOneRectangle(double xLeft, double xRight, List<Rectangle> rectangles) {
-        for (Rectangle r : rectangles) {
-            if (r.getLeft().getX() == xLeft && r.getRight().getX() == xRight) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private List<Rectangle> rectsAtYBottomLines(double y, List<Rectangle> rectangles) {
-        List<Rectangle> rectsAtYBottomLines = new ArrayList<>();
-        for (Rectangle r : rectangles) {
-
-            if (r.getTop().getY() == y || r.getBottom().getY() == y) {
-                rectsAtYBottomLines.add(r);
-            }
-            if (r.getTop().getY() > y && r.getBottom().getY() < y) {
-                rectsAtYBottomLines.add(r);
-            }
-        }
-        return rectsAtYBottomLines;
-
-    }
 
     private List<Rectangle> rectanglesAtX(double x, List<Rectangle> rectangles) {
         List<Rectangle> rectanglesAtX = new ArrayList<>();
@@ -385,44 +218,6 @@ public class MergeRectangle {
         return rectanglesAtY;
         //надо понять пересекается ли он с чем-то
         //если размер листа = 1, то просто точки соединяем, а если нет то что-то надо делать
-
-    }
-
-    private List<Rectangle> rectsOverYBottomLine(double y, List<Rectangle> rectangles) {
-        List<Rectangle> rectsAtYBottomLines = new ArrayList<>();
-        for (Rectangle r : rectangles) {
-            if (r.getTop().getY() > y && r.getBottom().getY() <= y) {
-                rectsAtYBottomLines.add(r);
-            }
-        }
-        return rectsAtYBottomLines;
-    }
-
-
-    private Double minXLeftCoord(double y, List<Rectangle> rectangles) {
-        List<Rectangle> rectAtY = rectanglesAtY(y, rectangles);
-        double minXLeftCord = 99.0;
-        for (Rectangle r : rectAtY) {
-            if (r.getLeft().getX() < minXLeftCord) {
-                minXLeftCord = r.getLeft().getX();
-            }
-        }
-
-        return minXLeftCord;
-
-    }
-
-    private Double maxXRightCoord(double y, List<Rectangle> rectangles) {
-        List<Rectangle> rectAtY = rectanglesAtY(y, rectangles);
-
-        double maxXRightCord = -99.0;
-        for (Rectangle r : rectAtY) {
-            if (r.getRight().getX() > maxXRightCord) {
-                maxXRightCord = r.getRight().getX();
-            }
-        }
-
-        return maxXRightCord;
 
     }
 

@@ -1,8 +1,7 @@
 package com.company.object;
 
 import com.company.point.RealPoint;
-import com.company.point.ScreenPoint;
-import com.company.ScreenConverter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +10,6 @@ public class Rectangle implements IFigure{
     private RealPoint p1, p2; //координата начала, координата конца по диагонали
     private RealPoint p0, p3;
 
-        /*
-        p1-----p0
-        |       |
-        |       |
-        p3-----p2
-         */
 
     public Rectangle(RealPoint p1, RealPoint p2) {
         this.p1 = p1;
@@ -25,20 +18,9 @@ public class Rectangle implements IFigure{
         this.p3 = new RealPoint(p1.getX(), p2.getY());
     }
 
-    public Rectangle(double x1, double y1, double x2, double y2){
-        p1 = new RealPoint(x1, y1);
-        p2 = new RealPoint(x2, y2);
-        p0 = new RealPoint(x2, y1);
-        p3 = new RealPoint(x1, y2);
-    }
-
 
     public RealPoint getP1() {
         return p1;
-    }
-
-    public void setP1(RealPoint p1) {
-        this.p1 = p1;
     }
 
     public RealPoint getP2() {
@@ -51,15 +33,6 @@ public class Rectangle implements IFigure{
         this.p3 = new RealPoint(p1.getX(), p2.getY());
 
     }
-
-    public RealPoint getP0() {
-        return p0;
-    }
-
-    public RealPoint getP3() {
-        return p3;
-    }
-
 
     @Override
     public void transfer(RealPoint newPos){
@@ -118,30 +91,6 @@ public class Rectangle implements IFigure{
 
         return Math.abs(p1.getX() - x) < width && Math.abs(p1.getY() - y) < height;
     }
-    public boolean isInside(RealPoint point){
-        double x = point.getX();
-        double y = point.getX();
-
-        return (p1.getX() < x && p2.getX() > x && p1.getY() > y && p2.getY() < y);
-    }
-
-    public ArrayList<Double> getAllYCords(){
-        ArrayList<Double> getAllYCords = new ArrayList<>();
-        getAllYCords.add(p1.getY());
-        getAllYCords.add(p0.getY());
-        getAllYCords.add(p2.getY());
-        getAllYCords.add(p3.getY());
-        return getAllYCords;
-    }
-
-    public ArrayList<Double> getAllXCords(){
-        ArrayList<Double> getAllXCords = new ArrayList<>();
-        getAllXCords.add(p1.getX());
-        getAllXCords.add(p0.getX());
-        getAllXCords.add(p2.getX());
-        getAllXCords.add(p3.getX());
-        return getAllXCords;
-    }
 
     @Override
     public List<RealPoint> getMarkers(){
@@ -152,13 +101,6 @@ public class Rectangle implements IFigure{
         getAllCords.add(p3);
         return getAllCords;
     }
-
-            /*
-        p1-----p0
-        |       |
-        |       |
-        p3-----p2
-         */
 
     public RealPoint getBottom(){
         return p2;

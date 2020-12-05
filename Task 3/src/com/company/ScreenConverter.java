@@ -62,10 +62,6 @@ public class ScreenConverter {
         this.realHeight = realHeight;
     }
 
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
     public void setScreenWidth(int screenWidth) {
         this.screenWidth = screenWidth;
     }

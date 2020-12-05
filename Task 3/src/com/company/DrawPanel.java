@@ -69,12 +69,9 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         if (toMerge){
 
 
-            //RectangleMerging rectangleMerging = new RectangleMerging();
             MergeRectangle mergeRectangle = new MergeRectangle();
-            //List<RealPoint> polygonPoints = rectangleMerging.makePolygon(allRect);
             List<RealPoint> polygonPoints = mergeRectangle.createPolygon(allRect);
 
-            drawPoints(polygonPoints, gr);
             drawPolygon(polygonPoints, ld);
 
         }else {
@@ -98,18 +95,8 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         g.drawImage(bi, 0, 0, null);
 
     }
-    private void drawPoints(List<RealPoint> points, Graphics g){
-        g.setColor(red);
-        g.setFont(new Font("Tahoma", Font.BOLD, 10));
 
-        for (RealPoint p:points) {
-            g.setColor(red);
-            g.fillOval(sc.r2s(p).getX() - 3, sc.r2s(p).getY() - 3, 6, 6);
-            g.setColor(black);
-            g.drawString(String.valueOf(points.indexOf(p)), sc.r2s(p).getX() - 3, sc.r2s(p).getY() - 3);
 
-        }
-    }
 
     private void drawPolygon(List<RealPoint> points, LineDrawer ld){
 
@@ -124,7 +111,6 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
 
     private void drawRect(Rectangle r, RectangleDrawer rd) {
         rd.drawRectangle((IFigure) r, blue);
-        //rd.drawRectangle(sc.r2s(r.getP1()), sc.r2s(r.getP2()), ld);
     }
 
     private void drawLine(LineDrawer ld, Line l) {
@@ -183,39 +169,6 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
 
             }
 
-//        if (transfer){
-//            editRectangle.transfer(sc.s2r(currentPosition));
-//            currentRectangle = editRectangle;
-//        }
-//
-//            if (lastPosition != null) {
-//                ScreenPoint deltaScreen = new ScreenPoint(currentPosition.getX() - lastPosition.getX(),
-//                        currentPosition.getY() - lastPosition.getY());
-//
-//                RealPoint deltaReal = sc.s2r(deltaScreen);
-//                RealPoint zeroReal = sc.s2r(new ScreenPoint(0, 0));
-//
-//                RealPoint vector = new RealPoint(deltaReal.getX() - zeroReal.getX(),
-//                        deltaReal.getY() - zeroReal.getY());
-//
-//                if (editRectangle != null) {
-//                    if (scale) {
-//                        //System.out.println(vector.getX() + " " + vector.getY());
-//                        editRectangle.scale(sc.s2r(lastPosition), vector);
-//                    }
-//                    currentRectangle = editRectangle;
-//                } else {
-//                    sc.setCornerX(sc.getCornerX() - vector.getX());
-//                    sc.setCornerY(sc.getCornerY() - vector.getY());
-//                }
-//                lastPosition = currentPosition;
-//
-//        }
-//
-//        if (currentNewLine != null){
-//            currentNewLine.setP2(sc.s2r(currentPosition));
-//            currentRectangle.setP2(sc.s2r(currentPosition));
-//        }
         }
 
         repaint();
@@ -228,9 +181,6 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
 
     @Override
     public void mouseClicked(MouseEvent e) {
-//        if (e.getButton() == MouseEvent.BUTTON1){
-//            toMerge = !toMerge;
-//        }
 
         if (e.getButton() == MouseEvent.BUTTON3){
             for (Rectangle r: allRect){
@@ -373,8 +323,6 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         int y = sc.r2s(editRectangle.getP1()).getY() + Math.abs((sc.r2s(editRectangle.getP2()).getY() - sc.r2s(editRectangle.getP1()).getY()) / 2) - (getHeight() / (30 * 2));
 
         return (x < click.getX() && x + getWidth() / 30 > click.getX() && y < click.getY() && y + (getHeight() / 30) > click.getY());
-//        return (sc.r2s(f.getCenter()).getX() - getWidth() / (30 * 2)) < click.getX() && (sc.r2s(f.getCenter()).getX() + getWidth() / (30) > click.getX()
-//                && sc.r2s(f.getCenter()).getY() - getHeight() / (30 * 2) < click.getY() && sc.r2s(f.getCenter()).getY() + getHeight() / (30) > click.getY());
     }
 
     private void drawMarkers(Graphics2D gr2) {
@@ -386,10 +334,6 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
             int x = sc.r2s(mark).getX();
             int y = sc.r2s(mark).getY();
 
-            drawArrow(x, y, gr2);
-//            int x = sc.r2s(mark).getX() - getWidth() / (30 * 2);
-//            int y = sc.r2s(mark).getY() - getHeight() / (30 * 2);
-//            gr2.fillOval(x, y, getWidth() / 30, getHeight() / 30);
         }
 
 
@@ -398,25 +342,6 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         gr2.drawLine(x, y, x + getWidth() / 30, y + getHeight() / 30);
         gr2.drawLine(x, y + getHeight() / 30, x + getWidth() / 30, y);
 
-        //gr2.fillRect(x, y, getWidth() / 30, getHeight() / 30);
-
-//        gr2.fillRect((Math.abs(sc.r2s(editRectangle.getP2()).getX() - sc.r2s(editRectangle.getP1()).getX()) / 2) - 11,
-//                Math.abs((sc.r2s(editRectangle.getP2()).getY() - sc.r2s(editRectangle.getP1()).getY()) / 2) - 11, 22, 22);
-
-        //gr2.fillRect(sc.r2s(editFigure.getCenter()).getX() - getWidth() / (30 * 2), sc.r2s(editFigure.getCenter()).getY() - getHeight() / (30 * 2), getWidth() / 30, getHeight() / 30);
-
     }
 
-    private void drawArrow(int x, int y, Graphics2D gr2){
-        int k = 2 * 30;
-        int k1 = 7 * 30;
-        gr2.drawLine(x - getWidth() / k, y - getHeight() / k, x + getWidth() / k, y + getHeight() / k);
-        //gr2.drawLine(x, y + getHeight() / 30, x + getWidth() / 30, y);
-        gr2.drawLine(x - getWidth() / k, y - getHeight() / k, x - getWidth() / k, y + getHeight() / k1 );
-        gr2.drawLine(x - getWidth() / k, y - getHeight() / k, x + getWidth() / k1, y - getHeight() / k);
-
-        gr2.drawLine(x + getWidth() / k, y + getHeight() / k, x + getWidth() / k, y - getHeight() / k1);
-        gr2.drawLine(x + getWidth() / k, y + getHeight() / k, x - getWidth() / k1, y + getHeight() / k);
-
-    }
 }
